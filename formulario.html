@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Sida Leila">
+    <title>Formulario de contacto</title>
+</head>
+<body>
+    <h2>Formulario de contacto</h2>
+    <!--Inicio del formulario con una function de validacion con un evento de envio-->
+    <form id="formularioContacto" onsubmit="return validateForm()"  >
+        <div>
+            <!--Textarea para que el usuario escriba su mensaje-->
+            <label for="mensaje">Mensaje: </label><br>
+            <textarea name="mensaje" id="mensaje" cols="50" rows="4"></textarea>
+        </div>
+        <div>
+            <label for="motivo">Motivo de contacto:</label><br>
+            <!--colocar radiobutton para que el usuario eliga el motivo de su consulta-->
+            <input type="radio" id="consulta" name="motivo" value="Consulta">
+            <label for="consulta">Consulta</label><br>
+            <input type="radio" id="queja" name="motivo" value="Queja">
+            <label for="queja">Queja</label><br>
+            <input type="radio" id="sugerencia" name="motivo" value="Sugerencia">
+            <label for="sugerencia">Sugerencia</label><br>
+        </div>
+       <br>
+            <!--chequear si quiere suscribirse a un boletin-->
+            <input type="checkbox" id="suscripcion" name="suscripcion">
+            <label for="suscripcion"> Suscribirse a nuestro boletin</label><br><br>
+            <div>
+                <!--lista desplegable para seleccionar opciones-->
+                <label for="seleccion"> Selecciona un tema</label>
+                <select id="seleccion" name="seleccion" >
+                    <option value="opcion1">Option 1</option>
+                    <option value="opcion2">Option 2</option>
+                    <option value="opcion3">Option 3</option>
+                </select>
+            </div>
+
+            <p>
+                <!--botton de envio-->
+                <button type="button" onclick="sendEmail()">Enviar</button>
+                <button type="reset">Reset</button>
+            </p>
+       
+    </form>
+    <script>
+        function validateForm(){
+            // recupera los valores de los campo del formulario
+            let mensaje= document.getElementById("mensaje").value;
+            let motivo = document.querySelector(`input[name="motivo"]:checked`);
+            let suscripcion = document.getElementById("suscripcion").checked;
+            let seleccion = document.getElementById("seleccion").value;
+
+            // valide que se haya seleccionado el motivo del contacto
+
+            //el area de texto no puede quedar vacio
+            if(mensaje.trim() === ""){
+                alert("Por favor, escribe un mensaje")
+                return false;
+            }
+            // si el motivo esta vacio recuerda al usuario que tiene aue seleccionarlo
+            if(motivo === null){
+                console.log(motivo)
+            alert("por favor selecionna un motivo de contacto")
+            return false;
+            }
+
+        // realizar una comprobacion que el usuario se suscribio al boletin
+            if(suscripcion){
+                console.log("usuario suscrito al boletin");
+             
+            }else{
+                console.log("usuario no suscrito");
+        
+                return true
+            }
+
+        }
+
+        function sendEmail(){
+            let mensaje= document.getElementById("mensaje").value;
+            let motivo = document.querySelector(`input[name="motivo"]:checked`);
+            let suscripcion = document.getElementById("suscripcion").checked;
+            let seleccion = document.getElementById("seleccion").value;
+
+            let emailBody = "Mensaje: " + mensaje + "\n";
+            emailBody += "Motivo de contacto" + motivo.value + "\n";  
+            emailBody += "Suscripcion al boletin : " + (suscripcion ? "Si" : "No") + "\n";
+            emailBody += "tema seleccionado : " + seleccion + "\n";
+
+            let mailtoLink = "mailto:leila@outlook.com?subject=Formulariodecontacto&body=" + encodeURIComponent(emailBody)
+            window.location.href = mailtoLink;
+        }
+    </script>
+</body>
+</html>
